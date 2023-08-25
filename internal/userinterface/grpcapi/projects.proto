@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+option go_package = "local/internal/userinterface/grpcapi";
+
+package grpcapi;
+
+service ProjectTracker {
+    rpc GetByID(ID) returns (Project) {}
+
+    rpc GetAll(GetAllParams) returns (stream Project) {}
+
+    rpc Save(Project) returns (SaveReturn) {}
+
+  }
+
+  message GetAllParams {}
+
+  message SaveReturn {
+    bool status = 1;
+    optional string message = 2;
+  }
+
+  message ID {
+    int64 id = 1;
+  }
+  
+  
+  // A project is a structure used to track time spent and status.
+  message Project {
+    int64 id = 1;
+    string label = 2;
+    string description = 3;
+	string status = 4;
+	int64 hoursSpent = 5;
+	repeated int64 subprojects = 6;
+  }
